@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  nginx:
+    build: ./nginx
+    container_name: pokemon-webapi.local
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - pokemon-webapi
+    networks:
+      - backend
+
+  pokemon-webapi:
+    build:
+      context: ./PokemonApi
+      dockerfile: ./Dockerfile
+    networks:
+      - backend
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+
+
+networks:
+  backend:
